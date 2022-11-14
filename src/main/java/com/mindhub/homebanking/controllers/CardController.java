@@ -27,7 +27,7 @@ public class CardController {
     @PostMapping("/clients/current/cards")
     ResponseEntity<Object> addCard(Authentication authentication, @RequestParam String cardType, @RequestParam String cardColor) {
         Client client = clientRepository.findByEmail(authentication.getName());
-        if(client.getCards().stream().filter(card -> card.getType().toString() == cardType).count() >= 3) {
+        if(client.getCards().stream().filter(card -> card.getType().toString().equals(cardType)).count() >= 3) {
             return new ResponseEntity<>("It is allowed a maximum of three cards per client", HttpStatus.FORBIDDEN);
         }
 
