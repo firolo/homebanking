@@ -7,6 +7,8 @@ import com.mindhub.homebanking.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 @Service
 public class ClientServiceImpl implements ClientService {
     @Autowired
@@ -20,5 +22,11 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(client);
         accountService.createAccount(client);
         return client;
+    }
+
+    @Override
+    public boolean isAccountFromClient(String email, String account) {
+        Client client = clientRepository.findByEmail(email);
+        return client.getAccounts().stream().filter(account1 -> account1.getNumber().equals(account)).collect(Collectors.toSet()).isEmpty();
     }
 }

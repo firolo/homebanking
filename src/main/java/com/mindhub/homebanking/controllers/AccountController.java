@@ -6,6 +6,7 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +26,17 @@ public class AccountController {
     private AccountRepository accountRepository;
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private AccountService accountService;
 
     @RequestMapping("/accounts")
     public Set<AccountDTO> getAll() {
-        return accountRepository.findAll().stream().map(AccountDTO::new).collect(Collectors.toSet());
+        return accountService.getAll();
     }
 
     @RequestMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable long id){
-        return accountRepository.findById(id).map(account -> new AccountDTO(account)).orElse(null);
+        return accountService.getAccount(id);
     }
     /*
     AccountRepository:
@@ -44,17 +47,17 @@ public class AccountController {
 
     @RequestMapping("/accounts/balance/{balance}")
     List<AccountDTO> getAccountByBalanceGreaterThan(@PathVariable double balance) {
-        return accountRepository.findByBalanceGreaterThan(balance).stream().map(AccountDTO::new).collect(Collectors.toList());
+        return accountService.getAccountByBalanceGreaterThan(balance);
     }
 
     @RequestMapping("/accounts/creationdate/{localdatetime}")
     List<AccountDTO> findByCreationDateBefore(@PathVariable String localdatetime) {
-        return accountRepository.findByCreationDateBefore(LocalDateTime.parse(localdatetime)).stream().map(AccountDTO::new).collect(Collectors.toList());
+        return accountService.findByCreationDateBefore(localdatetime);
     }
 
     @RequestMapping("/accounts/number/{number}")
     List<AccountDTO> findByNumber(@PathVariable String number) {
-        return accountRepository.findByNumber(number).stream().map(AccountDTO::new).collect(Collectors.toList());
+        return accountService.findByNumber(number);
     }
 
     @PostMapping("/clients/current/accounts")
