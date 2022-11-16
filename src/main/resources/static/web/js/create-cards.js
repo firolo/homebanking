@@ -24,7 +24,11 @@ var app = new Vue({
                 this.errorMsg = "You must select a card type and color";  
                 this.errorToats.show();
             }else{
-           
+                let config = {
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    }
+                }
                 axios.post(`http://localhost:8080/api/clients/current/cards?cardType=${this.cardType}&cardColor=${this.cardColor}`)
                 .then(response => window.location.href = "/web/cards.html")
                 .catch((error) =>{

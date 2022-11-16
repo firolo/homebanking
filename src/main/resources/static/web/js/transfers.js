@@ -47,12 +47,8 @@ var app = new Vue({
             }
         },
         transfer: function(){
-            let config = {
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded'
-                }
-            }
-            axios.post(`/api/transactions?fromAccountNumber=${this.accountFromNumber}&toAccountNumber=${this.accountToNumber}&amount=${this.amount}&description=${this.description}`,config)
+    
+            axios.post(`/api/transactions?fromAccountNumber=${this.accountFromNumber}&toAccountNumber=${this.accountToNumber}&amount=${this.amount}&description=${this.description}`)
             .then(response => { 
                 this.modal.hide();
                 this.okmodal.show();

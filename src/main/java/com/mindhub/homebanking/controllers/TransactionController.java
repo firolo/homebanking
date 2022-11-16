@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/transactions")
+@RequestMapping("/api")
 public class TransactionController {
     @Autowired
     TransactionRepository transactionRepository;
@@ -38,57 +38,59 @@ public class TransactionController {
     -Buscar una lista de transacciones por type
     */
 
-    @RequestMapping("/bydate/{fechadesde}/{fechahasta}")
-    List<TransactionDTO> getByDateBetween(@PathVariable String fechaDesde, @PathVariable String fechaHasta) {
-        return transactionRepository.findByDateBetween(LocalDateTime.parse(fechaDesde), LocalDateTime.parse(fechaHasta)).
+    @RequestMapping("/transactions/bydate/{fechadesde}/{fechahasta}")
+    List<TransactionDTO> getByDateBetween(@PathVariable String fechadesde, @PathVariable String fechahasta) {
+        return transactionRepository.findByDateBetween(LocalDateTime.parse(fechadesde), LocalDateTime.parse(fechahasta)).
                 stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
 
-    @RequestMapping("/amountbetween/{amount1}/{amount2}")
+    @RequestMapping("/transactions/amountbetween/{amount1}/{amount2}")
     List<TransactionDTO> getByAmountBetween(@PathVariable Double amount1, @PathVariable Double amount2) {
         return transactionRepository.findByAmountGreaterThanAndAndAmountLessThan(amount1,amount2).stream().
                 map(TransactionDTO::new).collect(Collectors.toList());
     }
 
-    @RequestMapping("/bytype/{type}")
+    @RequestMapping("/transactions/bytype/{type}")
     List<TransactionDTO> getByType(@PathVariable TransactionType type) {
         return transactionRepository.findByType(type).stream().map(TransactionDTO::new).collect(Collectors.toList());
     }
 
     @Transactional
-    @PostMapping("/add")
-    ResponseEntity<Object> createTransaction(Authentication authentication, @RequestParam Double monto, @RequestParam String desc,
-                                             @RequestParam String ctaOrigen, @RequestParam String ctaDest ) {
+    @PostMapping("/transactions")
+    ResponseEntity<Object> createTransaction(Authentication authentication, @RequestParam String fromAccountNumber,
+                                             @RequestParam String toAccountNumber, @RequestParam Double amount,
+                                             @RequestParam String description
+                                             ) {
 
 
-        if(monto.toString().isEmpty() || desc.isEmpty() || ctaOrigen.isEmpty() || ctaDest.isEmpty()) {
+        if(amount.toString().isEmpty() || description.isEmpty() || fromAccountNumber.isEmpty() || toAccountNumber.isEmpty()) {
             return new ResponseEntity<>("Incomplete parameters", HttpStatus.FORBIDDEN);
         }
 
-        if(ctaOrigen.equals(ctaDest)) {
+        if(fromAccountNumber.equals(toAccountNumber)) {
             return new ResponseEntity<>("Accounts must be different", HttpStatus.FORBIDDEN);
         }
 
-        Account account1 = accountService.accountByNumber(ctaOrigen);
+        Account account1 = accountService.accountByNumber(fromAccountNumber);
         if(account1==null) {
             return new ResponseEntity<>("Origin account does not exist", HttpStatus.FORBIDDEN);
         }
 
-        if(clientService.isAccountFromClient(authentication.getName().toString(), ctaOrigen)) {
-            return new ResponseEntity<>("The origin account does not belongs to client", HttpStatus.FORBIDDEN);
+        if(clientService.isAccountFromClient(authentication.getName().toString(), fromAccountNumber)) {
+            return new ResponseEntity<>("The origin account does not belong to client", HttpStatus.FORBIDDEN);
         }
 
-        Account account2 = accountService.accountByNumber(ctaDest);
+        Account account2 = accountService.accountByNumber(toAccountNumber);
         if(account2==null) {
             return new ResponseEntity<>("Destination account does not exist", HttpStatus.FORBIDDEN);
         }
 
-        if(account1.getBalance() < monto) {
+        if(account1.getBalance() < amount) {
             return new ResponseEntity<>("Origen account has not got enough money", HttpStatus.FORBIDDEN);
         }
 
-        transactionService.create(TransactionType.DEBITO, monto, desc, LocalDateTime.now(), account1);
-        transactionService.create(TransactionType.CREDITO, monto, desc, LocalDateTime.now(), account2);
+        transactionService.create(amount, description, LocalDateTime.now(), account1, account2);
+
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 

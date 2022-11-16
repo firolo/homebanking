@@ -7,5 +7,5 @@ import com.mindhub.homebanking.models.TransactionType;
 import java.time.LocalDateTime;
 
 public interface TransactionService {
-    public Transaction create(TransactionType type, Double amount, String description, LocalDateTime date, Account account);
+    public boolean create(double amount, String description, LocalDateTime date, Account account1, Account account2);
 }

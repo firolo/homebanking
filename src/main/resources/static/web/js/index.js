@@ -12,7 +12,7 @@ var app = new Vue({
     methods:{
         signIn: function(event){
             event.preventDefault();
-    
+      
             axios.post('/api/login',`email=${this.email}&password=${this.password}`)
             .then(response => window.location.href="/web/accounts.html")
             .catch(() =>{
@@ -22,7 +22,7 @@ var app = new Vue({
         },
         signUp: function(event){
             event.preventDefault();
-       
+         
             axios.post('/api/clients',`firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}`)
             .then(() => { this.signIn(event) })
             .catch(() =>{

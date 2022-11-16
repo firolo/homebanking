@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,7 +54,8 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public Account accountByNumber(String number) {
-        return accountRepository.findByNumber(number).iterator().next();
+        List<Account> acc = accountRepository.findByNumber(number);
+        return acc.isEmpty()? null : acc.iterator().next();
     }
 
 
