@@ -58,5 +58,11 @@ public class AccountServiceImpl implements AccountService{
         return acc.isEmpty()? null : acc.iterator().next();
     }
 
+    @Override
+    public Set<Account> accountsBalanceLessThan(double balance) {
+        return accountRepository.findAll().stream().filter(account -> {return account.getBalance() < balance; }).
+                collect(Collectors.toSet());
+    }
+
 
 }

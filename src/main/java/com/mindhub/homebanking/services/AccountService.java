@@ -15,5 +15,6 @@ public interface AccountService {
     public List<AccountDTO> findByCreationDateBefore(String localdatetime);
     public List<AccountDTO> findByNumber(String number);
     public Account accountByNumber(String number);
+    public Set<Account> accountsBalanceLessThan(double balance);
 
 }
