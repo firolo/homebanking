@@ -1,6 +1,9 @@
 package com.mindhub.homebanking.services;
 
 import com.mindhub.homebanking.dtos.ClientLoanDTO;
+import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.models.ClientLoan;
+import com.mindhub.homebanking.models.Loan;
 import com.mindhub.homebanking.repositories.ClientLoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +30,11 @@ public class ClientLoanServiceImpl implements ClientLoanService {
     public List<ClientLoanDTO> getByBalance(long client, double balance){
         return clientLoanRepository.findByClientAndAmountGreaterThan(client, balance).stream().map(ClientLoanDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void add(Client client, Loan loan, Double amount, Integer payments) {
+        ClientLoan clientLoan = new ClientLoan(client,loan,amount, payments);
+        clientLoanRepository.save(clientLoan);
     }
 }

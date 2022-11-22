@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 public interface TransactionService {
     public boolean create(double amount, String description, LocalDateTime date, Account account1, Account account2);
+    public boolean createForLoan(double amount, String description, Account account1);
     List<TransactionDTO> getByDateBetween( String fechadesde,  String fechahasta);
     List<TransactionDTO> getByAmountBetween( Double amount1,  Double amount2);
     List<TransactionDTO> getByType( TransactionType type);

@@ -31,6 +31,15 @@ public class TransactionServiceImpl implements TransactionService {
         accountRepository.save(account2);
         return true;
     }
+
+    @Override
+    public boolean createForLoan(double amount, String description, Account account1) {
+        Transaction trans1 = new Transaction(TransactionType.CREDITO,amount,description,LocalDateTime.now(),account1);
+        transactionRepository.save(trans1);
+        accountRepository.save(account1);
+        return true;
+    }
+
     @Override
     public List<TransactionDTO> getByDateBetween(String fechadesde, String fechahasta) {
         return transactionRepository.findByDateBetween(LocalDateTime.parse(fechadesde), LocalDateTime.parse(fechahasta)).

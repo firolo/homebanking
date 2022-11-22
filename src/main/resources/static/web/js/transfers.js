@@ -47,7 +47,7 @@ var app = new Vue({
             }
         },
         transfer: function(){
-    
+      
             axios.post(`/api/transactions?fromAccountNumber=${this.accountFromNumber}&toAccountNumber=${this.accountToNumber}&amount=${this.amount}&description=${this.description}`)
             .then(response => { 
                 this.modal.hide();
