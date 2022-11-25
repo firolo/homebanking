@@ -21,27 +21,27 @@ public class AccountController {
     @Autowired
     private ClientService clientService;
 
-    @RequestMapping("/accounts")
+    @GetMapping("/accounts")
     public Set<AccountDTO> getAll() {
         return accountService.getAll();
     }
 
-    @RequestMapping("/accounts/{id}")
+    @GetMapping("/accounts/{id}")
     public AccountDTO getAccount(@PathVariable long id){
         return accountService.getAccount(id);
     }
 
-    @RequestMapping("/accounts/balance/{balance}")
+    @GetMapping("/accounts/balance/{balance}")
     List<AccountDTO> getAccountByBalanceGreaterThan(@PathVariable double balance) {
         return accountService.getAccountByBalanceGreaterThan(balance);
     }
 
-    @RequestMapping("/accounts/creationdate/{localdatetime}")
+    @GetMapping("/accounts/creationdate/{localdatetime}")
     List<AccountDTO> findByCreationDateBefore(@PathVariable String localdatetime) {
         return accountService.findByCreationDateBefore(localdatetime);
     }
 
-    @RequestMapping("/accounts/number/{number}")
+    @GetMapping("/accounts/number/{number}")
     List<AccountDTO> findByNumber(@PathVariable String number) {
         return accountService.findByNumber(number);
     }

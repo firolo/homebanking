@@ -20,32 +20,32 @@ public class ClientController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @RequestMapping("/clients")
+    @GetMapping("/clients")
     public List<ClientDTO> getAll(){
         return clientService.getAll();
     }
 
-    @RequestMapping("/clients/{id}")
+    @GetMapping("/clients/{id}")
     public ClientDTO getClient(@PathVariable long id){
         return clientService.getById(id);
     }
 
-    @RequestMapping("/clients/firstname/{firstname}")
+    @GetMapping("/clients/firstname/{firstname}")
     public List<ClientDTO> getClientByFirstName(@PathVariable String firstname){
         return clientService.getClientByFirstName(firstname);
     }
 
-    @RequestMapping("/clients/{firstname}/{email}")
+    @GetMapping("/clients/{firstname}/{email}")
     public List<ClientDTO> getClientByFirstNameAndEmail(@PathVariable String firstname, @PathVariable String email) {
         return clientService.getClientByFirstNameAndEmail(firstname,email);
     }
 
-    @RequestMapping("/clients/lastname/{lastname}")
+    @GetMapping("/clients/lastname/{lastname}")
     public List<ClientDTO> getClientByLastName(@PathVariable String lastname){
         return clientService.getClientByLastName(lastname);
     }
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST)
+    @PostMapping(path = "/clients")
     public ResponseEntity<Object> register(
             @RequestParam String firstName, @RequestParam String lastName,
             @RequestParam String email, @RequestParam String password) {
@@ -62,12 +62,12 @@ public class ClientController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(path = "/clients/current", method = RequestMethod.GET)
+    @GetMapping(path = "/clients/current")
     public ClientDTO  getCurrentClient(Authentication authentication) {
         return new ClientDTO(clientService.getCurrentClient(authentication));
     }
 
-    @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.GET)
+    @GetMapping(path = "/clients/current/accounts")
     public List<AccountDTO>  getCurrentClientAccounts(Authentication authentication) {
         return clientService.getCurrentClientAccounts(authentication);
     }

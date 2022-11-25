@@ -7,6 +7,7 @@ import javax.persistence.ElementCollection;
 import java.util.List;
 
 public class LoanDTO {
+    private Long id;
     private String name;
     private Double maxAmount;
     @ElementCollection
@@ -25,7 +26,12 @@ public class LoanDTO {
         return payments;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public LoanDTO(Loan loan) {
+        this.id = loan.getId();
         this.name = loan.getName();
         this.maxAmount = loan.getMaxAmount();
         this.payments = loan.getPayments();

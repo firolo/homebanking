@@ -7,8 +7,6 @@ import java.util.Set;
 
 public interface LoanService {
     Set<LoanDTO> getLoans();
-
     boolean loanValid(String name);
-
-    Loan getLoan(String name);
+    Loan getLoan(Long id);
 }

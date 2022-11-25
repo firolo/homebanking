@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.controllers;
 
+import com.mindhub.homebanking.dtos.CardApplicationDTO;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.services.CardService;
 import com.mindhub.homebanking.services.ClientService;
@@ -7,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -33,4 +31,12 @@ public class CardController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/cards")
+    ResponseEntity<Object> deleteCard(Authentication authentication, @RequestBody CardApplicationDTO card) {
+        cardService.delete(card.getId());
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
 }

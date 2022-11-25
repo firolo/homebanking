@@ -23,17 +23,17 @@ public class TransactionController {
     @Autowired
     ClientService clientService;
 
-    @RequestMapping("/transactions/bydate/{fechadesde}/{fechahasta}")
+    @GetMapping("/transactions/bydate/{fechadesde}/{fechahasta}")
     List<TransactionDTO> getByDateBetween(@PathVariable String fechadesde, @PathVariable String fechahasta) {
         return transactionService.getByDateBetween(fechadesde,fechahasta);
     }
 
-    @RequestMapping("/transactions/amountbetween/{amount1}/{amount2}")
+    @GetMapping("/transactions/amountbetween/{amount1}/{amount2}")
     List<TransactionDTO> getByAmountBetween(@PathVariable Double amount1, @PathVariable Double amount2) {
         return transactionService.getByAmountBetween(amount1,amount2);
     }
 
-    @RequestMapping("/transactions/bytype/{type}")
+    @GetMapping("/transactions/bytype/{type}")
     List<TransactionDTO> getByType(@PathVariable TransactionType type) {
         return transactionService.getByType(type);
     }

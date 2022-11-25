@@ -6,6 +6,7 @@ import com.mindhub.homebanking.models.ClientLoan;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientLoanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,22 +22,22 @@ public class ClientLoanController {
     ClientLoanService clientLoanService;
     @Autowired
     AccountService accountService;
-    @RequestMapping("/byclient/{client}")
+    @GetMapping("/byclient/{client}")
     List<ClientLoanDTO> getByClient(@PathVariable long client){
         return clientLoanService.getByClient(client);
     }
 
-    @RequestMapping("/byamounts/{amount}")
+    @GetMapping("/byamounts/{amount}")
     List<ClientLoanDTO> getByAmounts(@PathVariable double amount){
         return clientLoanService.getByAmounts(amount);
     }
 
-    @RequestMapping("/bybalance/{client}/{balance}")
+    @GetMapping("/bybalance/{client}/{balance}")
     List<ClientLoanDTO> getByBalance(@PathVariable long client, @PathVariable double balance){
         return clientLoanService.getByBalance(client,balance);
     }
 
-    @RequestMapping("/clientswithbalacelower/{balance}")
+    @GetMapping("/clientswithbalacelower/{balance}")
     List<ClientLoanDTO> getByBalance(@PathVariable double balance){
         Set<ClientLoan> clientLoans = new HashSet<>();
         Set<Account> accounts = accountService.accountsBalanceLessThan(balance);

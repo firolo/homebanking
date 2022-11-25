@@ -44,11 +44,11 @@ public class LoanController {
     @PostMapping("api/loans")
     public ResponseEntity<Object> addLoan(Authentication authentication, @RequestBody LoanApplicationDTO loanApp) {
 
-        if (loanApp.getName()==null||loanApp.getAccountNumber()==null||loanApp.getPayments() == null||loanApp.getAmount() == null) {
+        if (loanApp.getLoanId()==null||loanApp.getToAccountNumber()==null||loanApp.getPayments() == null||loanApp.getAmount() == null) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
-        Loan loan = loanService.getLoan(loanApp.getName());
+        Loan loan = loanService.getLoan(loanApp.getLoanId());
 
         if(loan == null) {
             return new ResponseEntity<>("Invalid loan", HttpStatus.FORBIDDEN);
@@ -60,7 +60,7 @@ public class LoanController {
         if(!loan.getPayments().contains(loanApp.getPayments()))
             return new ResponseEntity<>("Invalid payment", HttpStatus.FORBIDDEN);
 
-        Account account= accountService.accountByNumber(loanApp.getAccountNumber());
+        Account account= accountService.accountByNumber(loanApp.getToAccountNumber());
 
         if(account == null)
             return new ResponseEntity<>("Invalid account", HttpStatus.FORBIDDEN);
@@ -75,7 +75,7 @@ public class LoanController {
 
         clientLoanService.add(client, loan, loanApp.getAmount()*1.2, loanApp.getPayments());
 
-        transactionService.createForLoan(loanApp.getAmount()*1.2, loanApp.getName()+" loan approved",account);
+        transactionService.createForLoan(loanApp.getAmount()*1.2, loanApp.getLoanId()+" loan approved",account);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
