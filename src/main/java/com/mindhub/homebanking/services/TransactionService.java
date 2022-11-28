@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public interface TransactionService {
@@ -17,4 +18,6 @@ public interface TransactionService {
     List<TransactionDTO> getByDateBetween( String fechadesde,  String fechahasta);
     List<TransactionDTO> getByAmountBetween( Double amount1,  Double amount2);
     List<TransactionDTO> getByType( TransactionType type);
+
+    void deleteSet(Set<Transaction> transactions);
 }

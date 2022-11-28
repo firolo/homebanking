@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.controllers;
 
+import com.mindhub.homebanking.dtos.AccountApplicationDTO;
 import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.services.AccountService;
@@ -55,6 +56,12 @@ public class AccountController {
         accountService.createAccount(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
 
+    }
+
+    @DeleteMapping("/accounts")
+    public ResponseEntity<Object> deleteAccount(Authentication authentication, @RequestBody AccountApplicationDTO account) {
+        accountService.deleteAccount(account);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }

@@ -1,8 +1,10 @@
 package com.mindhub.homebanking.services;
 
+import com.mindhub.homebanking.dtos.AccountApplicationDTO;
 import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService{
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    TransactionService transactionService;
 
     @Override
     public Account createAccount(Client client) {
@@ -62,6 +66,19 @@ public class AccountServiceImpl implements AccountService{
     public Set<Account> accountsBalanceLessThan(double balance) {
         return accountRepository.findAll().stream().filter(account -> {return account.getBalance() < balance; }).
                 collect(Collectors.toSet());
+    }
+
+    @Override
+    public void deleteAccount(AccountApplicationDTO accountDTO) {
+        Account account = accountRepository.findById(accountDTO.getId()).orElse(null);
+        /* si tiene transacciones las elimino */
+        Set<Transaction> transactions = account.getTransactions();
+        if(!transactions.isEmpty()) {
+            transactionService.deleteSet(transactions);
+        }
+
+        if(account != null)
+            accountRepository.delete(account);
     }
 
 

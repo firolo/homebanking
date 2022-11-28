@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.services;
 
+import com.mindhub.homebanking.dtos.AccountApplicationDTO;
 import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
@@ -16,5 +17,5 @@ public interface AccountService {
     public List<AccountDTO> findByNumber(String number);
     public Account accountByNumber(String number);
     public Set<Account> accountsBalanceLessThan(double balance);
-
+    void deleteAccount(AccountApplicationDTO account);
 }

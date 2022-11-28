@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -53,5 +54,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<TransactionDTO> getByType(TransactionType type) {
         return transactionRepository.findByType(type).stream().map(TransactionDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteSet(Set<Transaction> transactions) {
+        transactions.stream().map(tr->{transactionRepository.delete(tr); return null;});
     }
 }
