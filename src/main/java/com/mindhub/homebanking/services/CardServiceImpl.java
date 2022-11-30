@@ -1,9 +1,6 @@
 package com.mindhub.homebanking.services;
 
-import com.mindhub.homebanking.models.Card;
-import com.mindhub.homebanking.models.CardColor;
-import com.mindhub.homebanking.models.CardType;
-import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.utils.CardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,9 @@ import java.util.Optional;
 public class CardServiceImpl implements CardService {
     @Autowired
     private CardRepository cardRepository;
+    @Autowired
+    private TransactionService transactionService;
+
 
     @Override
     public Card create(Client client, String cardType, String cardColor) {
@@ -32,6 +32,17 @@ public class CardServiceImpl implements CardService {
     @Override
     public void delete(Long id) {
         Card card = cardRepository.findById(id).orElse(null);
-        cardRepository.delete(card);
+        card.setActive(false);
+        cardRepository.save(card);
+    }
+
+    @Override
+    public Card getCard(String cardnumber) {
+        return cardRepository.findByNumber(cardnumber);
+    }
+
+    @Override
+    public void createPay(String cardnumber, int cvv, Double amount, String descripcion, Account account) {
+        transactionService.createForLoan(amount,descripcion,account);
     }
 }

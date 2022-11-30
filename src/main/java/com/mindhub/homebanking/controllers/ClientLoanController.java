@@ -44,12 +44,10 @@ public class ClientLoanController {
         Set<Client> clients = new HashSet<>();
         for(Account account:accounts){
             clients.add(account.getClient());
-            System.out.println("account "+account.getId());
         }
 
         for(Client client :clients) {
             clientLoans.addAll(client.getClientLoans());
-            System.out.println("client "+client.getId());
         }
         return clientLoans.stream().map(ClientLoanDTO::new).collect(Collectors.toList());
     }

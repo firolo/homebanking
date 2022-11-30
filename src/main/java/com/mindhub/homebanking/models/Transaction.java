@@ -17,6 +17,7 @@ public class Transaction {
     private String description;
     private LocalDateTime date;
     private Double balance;
+    private boolean active;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="owner_id")
@@ -79,6 +80,14 @@ public class Transaction {
         this.balance = balance;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public Transaction(){}
     public Transaction(TransactionType type, Double amount, String description, LocalDateTime date, Account account) {
         this.type = type;
@@ -89,5 +98,6 @@ public class Transaction {
         if (type.equals(TransactionType.CREDITO)) account.setBalance(account.getBalance()+amount);
         else account.setBalance(account.getBalance()-amount);
         this.balance = account.getBalance();
+        this.active = true;
     }
 }

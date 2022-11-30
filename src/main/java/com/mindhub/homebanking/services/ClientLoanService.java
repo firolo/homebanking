@@ -14,5 +14,5 @@ public interface ClientLoanService {
     List<ClientLoanDTO> getByAmounts(double amount);
     List<ClientLoanDTO> getByBalance(long client,double balance);
 
-    void add(Client client, Loan loan, Double amount, Integer payments);
+    Double add(Client client, Loan loan, Double amount, Integer payments);
 }

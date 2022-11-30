@@ -1,9 +1,6 @@
 package com.mindhub.homebanking.controllers;
 
-import com.mindhub.homebanking.dtos.AccountDTO;
-import com.mindhub.homebanking.dtos.ClientDTO;
-import com.mindhub.homebanking.dtos.LoanApplicationDTO;
-import com.mindhub.homebanking.dtos.LoanDTO;
+import com.mindhub.homebanking.dtos.*;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Loan;
@@ -73,10 +70,18 @@ public class LoanController {
 
         Client client = clientService.getCurrentClient(authentication);
 
-        clientLoanService.add(client, loan, loanApp.getAmount()*1.2, loanApp.getPayments());
+        Double finalAmount = clientLoanService.add(client, loan, loanApp.getAmount(), loanApp.getPayments());
 
-        transactionService.createForLoan(loanApp.getAmount()*1.2, loanApp.getLoanId()+" loan approved",account);
+        transactionService.createForLoan(finalAmount, loanApp.getLoanId()+" loan approved",account);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PostMapping("api/loantype")
+    public ResponseEntity<Object> addLoanType(Authentication authentication, @RequestBody LoanTypeApplicationDTO loanTypeApp) {
+        Loan loan = new Loan(loanTypeApp.getName(), loanTypeApp.getMaxAmount(),List.of(6,12), loanTypeApp.getPercent());
+        loanService.createLoanType(loan);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 }

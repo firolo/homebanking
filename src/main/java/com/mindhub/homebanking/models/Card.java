@@ -18,6 +18,7 @@ public class Card {
     private int cvv;
     private LocalDateTime fromDate;
     private LocalDateTime thruDate;
+    private boolean active;
     @ManyToOne
     @JoinColumn(name="owner_id")
     private Client client;
@@ -94,6 +95,14 @@ public class Card {
         this.client = client;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public Card() {};
 
     public Card(String cardholder, CardType type, CardColor color, String number, int cvv, LocalDateTime fromDate, LocalDateTime thruDate, Client client) {
@@ -105,5 +114,6 @@ public class Card {
         this.fromDate = fromDate;
         this.thruDate = thruDate;
         this.client = client;
+        this.active = true;
     }
 }

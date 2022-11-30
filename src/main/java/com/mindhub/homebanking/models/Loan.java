@@ -15,6 +15,7 @@ public class Loan {
     private Long id;
     private String name;
     private Double maxAmount;
+    private Double percent;
     @ElementCollection
     @Column(name="payment")
     private List<Integer> payments;
@@ -63,11 +64,20 @@ public class Loan {
     }
 
 
+    public Double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Double percent) {
+        this.percent = percent;
+    }
+
     public Loan() {}
 
-    public Loan(String name, Double maxAmount, List<Integer> payments) {
+    public Loan(String name, Double maxAmount, List<Integer> payments, Double percent) {
         this.name = name;
         this.maxAmount = maxAmount;
         this.payments = payments;
+        this.percent = percent;
     }
 }

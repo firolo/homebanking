@@ -3,6 +3,7 @@ package com.mindhub.homebanking.services;
 import com.mindhub.homebanking.dtos.AccountApplicationDTO;
 import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.AccountType;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.repositories.AccountRepository;
@@ -26,7 +27,7 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public Account createAccount(Client client) {
         Account account = new Account("VIN-"+String.valueOf((int) (Math.random() * (10000000 - 1) + 1)),
-                LocalDateTime.now(),0d,client);
+                LocalDateTime.now(),0d,client, AccountType.CAJA_AHORRO);
         accountRepository.save(account);
         return account;
     }
@@ -77,9 +78,9 @@ public class AccountServiceImpl implements AccountService{
             transactionService.deleteSet(transactions);
         }
 
-        if(account != null)
-            accountRepository.delete(account);
+        if(account != null) {
+            account.setActive(false);
+            accountRepository.save(account);
+        }
     }
-
-
 }

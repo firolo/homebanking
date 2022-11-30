@@ -33,8 +33,10 @@ public class ClientLoanServiceImpl implements ClientLoanService {
     }
 
     @Override
-    public void add(Client client, Loan loan, Double amount, Integer payments) {
-        ClientLoan clientLoan = new ClientLoan(client,loan,amount, payments);
+    public Double add(Client client, Loan loan, Double amount, Integer payments) {
+        Double finalAmount = amount + amount * loan.getPercent() /100;
+        ClientLoan clientLoan = new ClientLoan(client,loan,finalAmount, payments);
         clientLoanRepository.save(clientLoan);
+        return finalAmount;
     }
 }

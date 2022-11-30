@@ -58,6 +58,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void deleteSet(Set<Transaction> transactions) {
-        transactions.stream().map(tr->{transactionRepository.delete(tr); return null;});
+        System.out.println("delete tr");
+        transactions.stream().map(tr -> {
+            tr.setActive(false);
+            transactionRepository.save(tr);
+            return null;
+        });
     }
 }

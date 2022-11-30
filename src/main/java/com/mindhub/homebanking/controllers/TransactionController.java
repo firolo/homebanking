@@ -1,4 +1,5 @@
 package com.mindhub.homebanking.controllers;
+import com.mindhub.homebanking.dtos.TransactionAppDTO;
 import com.mindhub.homebanking.dtos.TransactionDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.TransactionType;
@@ -76,6 +77,13 @@ public class TransactionController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 
+    }
+
+    @GetMapping("transactions/bydate")
+    List<TransactionDTO> getByDate(Authentication authentication, @RequestParam TransactionAppDTO transactionAppDTO) {
+        if(transactionAppDTO.getDateFrom() != null && transactionAppDTO.getDateThru() != null ) {
+
+        }
     }
 
 }

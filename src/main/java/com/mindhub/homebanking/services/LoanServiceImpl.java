@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.services;
 
 import com.mindhub.homebanking.dtos.LoanDTO;
+import com.mindhub.homebanking.dtos.LoanTypeApplicationDTO;
 import com.mindhub.homebanking.models.Loan;
 import com.mindhub.homebanking.repositories.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,10 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public Loan getLoan(Long id) {
         return loanRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void createLoanType(Loan loan) {
+        loanRepository.save(loan);
     }
 }
