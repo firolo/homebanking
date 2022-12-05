@@ -31,10 +31,9 @@ public class ClientLoanServiceImpl implements ClientLoanService {
         return clientLoanRepository.findByClientAndAmountGreaterThan(client, balance).stream().map(ClientLoanDTO::new)
                 .collect(Collectors.toList());
     }
-
     @Override
     public Double add(Client client, Loan loan, Double amount, Integer payments) {
-        Double finalAmount = amount + amount * loan.getPercent() /100;
+        Double finalAmount = amount;// + amount * loan.getPercent() /100;
         ClientLoan clientLoan = new ClientLoan(client,loan,finalAmount, payments);
         clientLoanRepository.save(clientLoan);
         return finalAmount;

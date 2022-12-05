@@ -45,9 +45,9 @@ public class HomebankingApplication {
 			Transaction trn2 = new Transaction(TransactionType.DEBITO,615.59,"Pago almacén",LocalDateTime.now(),acc1);
 			Transaction trn3 = new Transaction(TransactionType.CREDITO,10000.2,"Transferencia entrante",LocalDateTime.now(),acc2);
 
-			Loan loan1 = new Loan("Hipotecario",500000d,List.of(12,24,36,48,60),10d);
-			Loan loan2 = new Loan("Personal",100000d,List.of(6,12,24),25d);
-			Loan loan3 = new Loan("Automotriz",300000d, List.of(6,12,24,36),30d);
+			Loan loan1 = new Loan("Hipotecario",500000d,List.of(12,24,36,48,60),20d);
+			Loan loan2 = new Loan("Personal",100000d,List.of(6,12,24),20d);
+			Loan loan3 = new Loan("Automotriz",300000d, List.of(6,12,24,36),20d);
 
 			ClientLoan clientLoan1 = new ClientLoan(client1, loan1, 400000d, 60);
 			ClientLoan clientLoan2 = new ClientLoan(client1, loan2, 50000d, 12);

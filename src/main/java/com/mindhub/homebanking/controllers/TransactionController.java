@@ -81,9 +81,7 @@ public class TransactionController {
 
     @GetMapping("transactions/bydate")
     List<TransactionDTO> getByDate(Authentication authentication, @RequestParam TransactionAppDTO transactionAppDTO) {
-        if(transactionAppDTO.getDateFrom() != null && transactionAppDTO.getDateThru() != null ) {
-
-        }
+        return null;
     }
 
 }
